@@ -1,12 +1,14 @@
 // script.js
+console.log("script.js is running!");
 
+// 1. HTML Element References
 const form = document.getElementById('registrationForm');
 const username = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
 
-// New elements for data display
+// New elements for data display and type selection
 const submittedRecords = document.getElementById('submittedRecords');
 const noRecordsMessage = document.getElementById('noRecordsMessage');
 const deleteAllBtn = document.getElementById('deleteAllBtn');
@@ -27,16 +29,16 @@ const successMessage = document.getElementById('successMessage');
 
 function showError(input, message) {
     const formControl = input.parentElement;
-    formControl.className = 'form-control error'; // Applies .error styles from CSS
+    formControl.className = 'form-control error'; 
     const small = formControl.querySelector('small');
     small.innerText = message;
 }
 
 function showSuccess(input) {
     const formControl = input.parentElement;
-    formControl.className = 'form-control success'; // Applies .success styles from CSS
+    formControl.className = 'form-control success'; 
     const small = formControl.querySelector('small');
-    small.innerText = ''; // Clears error message on success
+    small.innerText = ''; 
 }
 
 // ==========================================================
@@ -54,44 +56,37 @@ function checkRequired(inputArr) {
             showSuccess(input);
         }
     });
+    console.log('checkRequired result:', isFormValid); 
     return isFormValid;
 }
 
-// Checks for a valid email format (using RegEx)
-function checkEmail(input) {
-    // Standard email RegEx
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-    if (re.test(input.value.trim())) {
-        showSuccess(input);
-        return true;
-    } else {
-        showError(input, 'Email is not valid');
-        return false;
-    }
-}
+// *** checkEmail function REMOVED as requested ***
 
 // Checks if passwords match
 function checkPasswordsMatch(input1, input2) {
+    let isValid = true;
     if (input1.value !== input2.value) {
         showError(input2, 'Passwords do not match');
-        return false;
+        isValid = false;
     }
-    return true;
+    console.log('checkPasswordsMatch result:', isValid); 
+    return isValid;
 }
 
 // Checks field length (min and max)
 function checkLength(input, min, max) {
+    let isValid = true; 
     if (input.value.length < min) {
         showError(input, `${getFieldName(input)} must be at least ${min} characters`);
-        return false;
+        isValid = false;
     } else if (input.value.length > max) {
         showError(input, `${getFieldName(input)} must be less than ${max} characters`);
-        return false;
+        isValid = false;
     } else {
         showSuccess(input);
-        return true;
     }
+    console.log(`checkLength for ${getFieldName(input)} (${min}-${max}) result:`, isValid); 
+    return isValid;
 }
 
 // Capitalizes the field ID to use as a user-friendly label
@@ -103,41 +98,36 @@ function getFieldName(input) {
 // 3. UI Feedback Functions
 // ==========================================================
 
-// Shows a success message for a few seconds
 function showSuccessMessage() {
     successMessage.style.display = 'block';
     setTimeout(() => {
         successMessage.style.display = 'none';
-    }, 3000); // Hides after 3 seconds
+    }, 3000); 
 }
 
 // ==========================================================
-// 3. Data Storage and Display Functions (Local Storage)
+// 4. Data Storage and Display Functions (Local Storage)
 // ==========================================================
 
-// Gets all records from local storage
 function getStoredRecords() {
     const records = localStorage.getItem('registrationRecords');
     return records ? JSON.parse(records) : [];
 }
 
-// Saves a new record to local storage, adding a unique ID, timestamp, and type
 function saveRecord(record, type) {
     const records = getStoredRecords();
     
-    // Create a new record object with ID, timestamp, and type for uniqueness and tracking
     const newRecord = {
         ...record,
-        id: Date.now(), // Unique ID using timestamp
-        submittedAt: new Date().toLocaleString(), // Timestamp for better display
-        type: type // 'student' or 'faculty'
+        id: Date.now(), 
+        submittedAt: new Date().toLocaleString(), 
+        type: type 
     };
     
     records.push(newRecord);
     localStorage.setItem('registrationRecords', JSON.stringify(records));
 }
 
-// Deletes all records from local storage
 function deleteAllRecords() {
     if (confirm('Are you sure you want to delete all records?')) {
         localStorage.removeItem('registrationRecords');
@@ -146,48 +136,36 @@ function deleteAllRecords() {
     }
 }
 
-// Deletes a record by ID and refreshes the display
 function deleteRecord(idToDelete) {
-    // Ask for confirmation before deleting
     if (confirm('Are you sure you want to delete this record?')) {
         const targetId = Number(idToDelete);
         const records = getStoredRecords();
         
-        // Filter out the record with the matching ID
         const updatedRecords = records.filter(record => record.id !== targetId);
         
-        // Save the updated list back to local storage
         localStorage.setItem('registrationRecords', JSON.stringify(updatedRecords));
         
-        // Refresh the display with the updated records
         displayRecords(updatedRecords);
 
-        // Log the action
         console.log(`Record with ID ${targetId} deleted.`);
     }
 }
 
-// Updates and displays the records on the screen
 function displayRecords(recordsToDisplay) {
     const records = recordsToDisplay || getStoredRecords();
     
-    // Clear previous records
     submittedRecords.innerHTML = ''; 
 
     if (records.length === 0) {
-        // Show message if no records exist
         submittedRecords.appendChild(noRecordsMessage);
         noRecordsMessage.classList.remove('hidden');
     } else {
-        // Create a new card for each record
         noRecordsMessage.classList.add('hidden');
         
         records.forEach((record, index) => {
             const recordCard = document.createElement('div');
-            // Added flex and justify-between to align text and button
             recordCard.className = 'p-4 bg-indigo-50 border border-indigo-200 rounded-lg shadow-sm flex justify-between items-center';
             
-            // --- Content Div (Left Side) ---
             const contentDiv = document.createElement('div');
             
             if (record.type === 'faculty') {
@@ -196,19 +174,19 @@ function displayRecords(recordsToDisplay) {
                     <p class="text-sm text-gray-700"><strong>Faculty ID:</strong> ${record.facultyId}</p>
                     <p class="text-sm text-gray-700"><strong>Department:</strong> ${record.department}</p>
                     <p class="text-sm text-gray-700"><strong>Email:</strong> ${record.email}</p>
+                    <p class="text-sm text-green-600 font-semibold">Successfully registered! 🎉</p>
                     <p class="text-xs text-gray-500 mt-1">Submitted: ${record.submittedAt}</p>
                 `;
             } else { // Default to student
                 contentDiv.innerHTML = `
-                    <h4 class="text-md font-semibold text-indigo-700 mb-1">Record #${index + 1}</h4>
+                    <h4 class="text-md font-semibold text-indigo-700 mb-1">Student Record #${index + 1}</h4>
                     <p class="text-sm text-gray-700"><strong>Username:</strong> ${record.username}</p>
                     <p class="text-sm text-gray-700"><strong>Email:</strong> ${record.email}</p>
+                    <p class="text-sm text-green-600 font-semibold">Successfully registered! 🎉</p>
                     <p class="text-xs text-gray-500 mt-1">Submitted: ${record.submittedAt}</p>
-                    <!-- NOTE: Password is not displayed for security reasons -->
                 `;
             }
 
-            // --- Delete Button (Right Side) ---
             const deleteBtn = document.createElement('button');
             deleteBtn.innerText = 'Delete';
             deleteBtn.className = 'ml-4 px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-md hover:bg-red-600 transition duration-150 shadow-md';
@@ -217,11 +195,9 @@ function displayRecords(recordsToDisplay) {
                 deleteRecord(record.id);
             });
 
-            // Append elements to the card
             recordCard.appendChild(contentDiv);
             recordCard.appendChild(deleteBtn);
 
-            // Append the card to the container
             submittedRecords.appendChild(recordCard);
         });
     }
@@ -229,61 +205,64 @@ function displayRecords(recordsToDisplay) {
 
 
 // ==========================================================
-// 4. Event Listener for Submission
+// 5. Event Listener for Submission 
 // ==========================================================
 
+// STUDENT FORM SUBMISSION
 form.addEventListener('submit', function(e) {
+    console.log("Student form submitted!"); 
     e.preventDefault();
 
+    // Removed email from validation list since it's only required now, not format-checked
     const isRequiredValid = checkRequired([username, email, password, password2]);
     let isLengthValid = false;
-    let isEmailValid = false;
     let isPasswordMatchValid = false;
 
     if (isRequiredValid) {
         isLengthValid = checkLength(username, 3, 15) && checkLength(password, 6, 25);
-        isEmailValid = checkEmail(email);
+        // checkEmail(email) REMOVED
         isPasswordMatchValid = checkPasswordsMatch(password, password2);
     }
     
     // Submit if all checks pass
-    if (isRequiredValid && isLengthValid && isEmailValid && isPasswordMatchValid) {
+    if (isRequiredValid && isLengthValid && isPasswordMatchValid) { // isEmailValid check REMOVED
         
         const submissionData = {
             username: username.value.trim(),
             email: email.value.trim(),
-            // Password would be hashed and sent to a server in a real application
-            // password: password.value.trim(), 
         };
         
-        // 1. Save data to Local Storage with type 'student'
         saveRecord(submissionData, 'student');
         
-        // 2. Reset the form and update the display
-        form.reset(); 
-        displayRecords(); 
-        showSuccessMessage();
+        form.reset();
+        
+        alert('Successfully registered!'); 
 
-        // Replaced alert() with console.log() as per guidelines
+        displayRecords(); 
+        
+        [username, email, password, password2].forEach(showSuccess);
+        
         console.log('Registration successfully submitted! 🎉 Record saved in history.');
     }
 });
 
+// FACULTY FORM SUBMISSION
 facultyForm.addEventListener('submit', function(e) {
+    console.log("Faculty form submitted!"); 
     e.preventDefault();
 
+    // Removed facultyEmail from format validation consideration
     const isRequiredValid = checkRequired([facultyId, department, facultyEmail, facultyPassword, facultyPassword2]);
     let isLengthValid = false;
-    let isEmailValid = false;
     let isPasswordMatchValid = false;
 
     if (isRequiredValid) {
         isLengthValid = checkLength(facultyPassword, 6, 25);
-        isEmailValid = checkEmail(facultyEmail);
+        // checkEmail(facultyEmail) REMOVED
         isPasswordMatchValid = checkPasswordsMatch(facultyPassword, facultyPassword2);
     }
     
-    if (isRequiredValid && isLengthValid && isEmailValid && isPasswordMatchValid) {
+    if (isRequiredValid && isLengthValid && isPasswordMatchValid) { // isEmailValid check REMOVED
         const submissionData = {
             facultyId: facultyId.value.trim(),
             department: department.value.trim(),
@@ -291,27 +270,29 @@ facultyForm.addEventListener('submit', function(e) {
         };
         
         saveRecord(submissionData, 'faculty');
+
+        facultyForm.reset();
+
+        alert('Successfully registered!');
+
+        displayRecords();
         
-        facultyForm.reset(); 
-        displayRecords(); 
-        showSuccessMessage();
+        [facultyId, department, facultyEmail, facultyPassword, facultyPassword2].forEach(showSuccess);
 
         console.log('Faculty registration successfully submitted! 🎉 Record saved in history.');
     }
 });
 
 // ==========================================================
-// 5. Initial Load and Interactive Validation
+// 6. Initial Load and Interactive Validation
 // ==========================================================
 
-// Display stored records when the page loads
 document.addEventListener('DOMContentLoaded', displayRecords);
 
-// Event listener for the "Delete All" button
 deleteAllBtn.addEventListener('click', deleteAllRecords);
 
 // ==========================================================
-// 6. Role Selection
+// 7. Role Selection
 // ==========================================================
 
 studentBtn.addEventListener('click', () => {
@@ -333,17 +314,22 @@ facultyBtn.addEventListener('click', () => {
 });
 
 // Checks when the user fills an input field and moves out (on blur)
-[username, email, password, password2].forEach(input => {
+[username, email, password, password2, facultyId, department, facultyEmail, facultyPassword, facultyPassword2].forEach(input => {
     input.addEventListener('blur', () => {
         if (input.value.trim() !== '') {
-            if (input.id === 'email') {
-                checkEmail(input);
-            } else if (input.id === 'username') {
+            if (input.id === 'username') {
                 checkLength(input, 3, 15);
             } else if (input.id === 'password') {
                 checkLength(input, 6, 25);
             } else if (input.id === 'password2') {
                 checkPasswordsMatch(password, password2);
+            } else if (input.id === 'facultyPassword') {
+                checkLength(input, 6, 25);
+            } else if (input.id === 'facultyPassword2') {
+                checkPasswordsMatch(facultyPassword, facultyPassword2);
+            } else {
+                // Email fields now only check for being non-empty (which checkRequired does)
+                showSuccess(input);
             }
         }
     });

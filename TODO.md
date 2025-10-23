@@ -1,0 +1,1 @@
+- [ ] Modify displayRecords function in script.js to include "Successfully registered!" in each record's display in the submitted history.
