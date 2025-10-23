@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Form Validation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Your custom CSS (if needed) -->
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<!-- Body is set as a column flex container to stack the form and history, centered vertically -->
+<body class="bg-gray-100 flex flex-col items-center min-h-screen py-12">
+    
+    <!-- 1. REGISTRATION FORM CONTAINER (The first card) -->
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">User Registration</h2>
+
+        <!-- Role Selection Buttons -->
+        <div class="flex justify-center mb-6">
+            <button id="studentBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-l-md">Student</button>
+            <button id="facultyBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-r-md">Faculty</button>
+        </div>
+        
+        <form id="registrationForm" class="space-y-6">
+            
+            <div class="form-control">
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Enter your name"
+                />
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+
+            <div class="form-control">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Example: user@example.com"
+                />
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+
+            <div class="form-control">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Minimum 6 characters"
+                />
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+
+            <div class="form-control">
+                <label for="password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input 
+                    type="password" 
+                    id="password2" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Re-enter password"
+                />
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+            >
+                Register
+            </button>
+        </form>
+
+        <form id="facultyRegistrationForm" class="space-y-6 hidden">
+            <h3 class="text-xl font-bold text-center text-gray-800">Faculty Registration</h3>
+            <div class="form-control">
+                <label for="facultyId" class="block text-sm font-medium text-gray-700">Faculty ID</label>
+                <input type="text" id="facultyId" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your Faculty ID">
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+            <div class="form-control">
+                <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+                <input type="text" id="department" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your department">
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+            <div class="form-control">
+                <label for="facultyEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="facultyEmail" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Example: faculty@example.com">
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+            <div class="form-control">
+                <label for="facultyPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="facultyPassword" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Minimum 6 characters">
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+            <div class="form-control">
+                <label for="facultyPassword2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input type="password" id="facultyPassword2" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Re-enter password">
+                <small class="text-red-500 text-xs mt-1 hidden"></small>
+            </div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                Register Faculty
+            </button>
+        </form>
+    </div> <!-- END of Registration Form Container -->
+    
+    <!-- 2. SUBMITTED DATA HISTORY CONTAINER (The second card) -->
+    <!-- mt-12 creates a large gap between the form and history sections -->
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-xl mt-12">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800">Submitted Data History</h3>
+            <button id="deleteAllBtn" class="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-md hover:bg-red-600 transition duration-150 shadow-md">Delete All</button>
+        </div>
+        
+        <!-- Records will be populated here -->
+        <div id="submittedRecords" class="space-y-4">
+            <p id="noRecordsMessage" class="text-gray-500">No records submitted yet.</p>
+        </div>
+    </div> <!-- END of History Container -->
+    
+    <script src="script.js"></script>
+</body>
+</html>
