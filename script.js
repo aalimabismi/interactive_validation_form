@@ -19,6 +19,7 @@ const department = document.getElementById('department');
 const facultyEmail = document.getElementById('facultyEmail');
 const facultyPassword = document.getElementById('facultyPassword');
 const facultyPassword2 = document.getElementById('facultyPassword2');
+const successMessage = document.getElementById('successMessage');
 
 // ==========================================================
 // 1. Core Functions: Show Errors and Success
@@ -96,6 +97,18 @@ function checkLength(input, min, max) {
 // Capitalizes the field ID to use as a user-friendly label
 function getFieldName(input) {
     return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
+// ==========================================================
+// 3. UI Feedback Functions
+// ==========================================================
+
+// Shows a success message for a few seconds
+function showSuccessMessage() {
+    successMessage.style.display = 'block';
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+    }, 3000); // Hides after 3 seconds
 }
 
 // ==========================================================
@@ -249,6 +262,7 @@ form.addEventListener('submit', function(e) {
         // 2. Reset the form and update the display
         form.reset(); 
         displayRecords(); 
+        showSuccessMessage();
 
         // Replaced alert() with console.log() as per guidelines
         console.log('Registration successfully submitted! 🎉 Record saved in history.');
@@ -280,6 +294,7 @@ facultyForm.addEventListener('submit', function(e) {
         
         facultyForm.reset(); 
         displayRecords(); 
+        showSuccessMessage();
 
         console.log('Faculty registration successfully submitted! 🎉 Record saved in history.');
     }
