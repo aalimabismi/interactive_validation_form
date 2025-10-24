@@ -13,8 +13,8 @@
 }
 
 /* Password meter color transitions */
-#pw-meter {
-  background-color: #3b82f6; /* Tailwind sky-500 */
+#password-strength-bar, #faculty-password-strength-bar {
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 /* Hide error text by default */
