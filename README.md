@@ -120,12 +120,6 @@ Please include clear issue descriptions and screenshots / recordings for UI chan
 
 ---
 
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 ## ✉️ Contact
 
 Created by **Aalima Bismi P** — replace with your details.
