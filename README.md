@@ -127,13 +127,6 @@ Created by **Aalima Bismi P** — replace with your details.
 * GitHub: `https://github.com/aalimabismi/interactive_validation_form.git`
 * Email: `aalimabismi2308@gmail.com`
 
----
-
-## 📝 Notes / TODO
-
-* Add unit tests for validation functions
-* Add examples for framework integration
-* Add internationalization (Tamil / English) support for messages
 
 ---
 
