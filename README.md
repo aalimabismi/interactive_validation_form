@@ -6,7 +6,7 @@ Features:
 - Responsive and modern UI
 Setup Instructions:
 1. Clone the repository:
-   git clone https://github.com/username/interactive-validation-form.git
+   git clone https://github.com/aalimabismi/interactive-validation-form.git
 2. Navigate to the project directory:
    cd interactive-validation-form
 3. Open index.html in your browser.
